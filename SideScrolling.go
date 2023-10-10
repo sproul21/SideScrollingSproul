@@ -69,7 +69,6 @@ func loadSoundEffect() {
 		log.Fatal(err)
 	}
 
-	// Read the entire file into memory
 	data, err := io.ReadAll(f)
 	if err != nil {
 		log.Fatal(err)
@@ -77,9 +76,8 @@ func loadSoundEffect() {
 	err = f.Close()
 	if err != nil {
 		return
-	} // Close the file after reading its content
+	}
 
-	// Decode the MP3 data from memory
 	soundStream, err := mp3.DecodeWithoutResampling(bytes.NewReader(data))
 	if err != nil {
 		log.Fatal(err)
@@ -126,12 +124,12 @@ func (g *Game) Update() error {
 				bullet.x+float64(g.waterdrop.Bounds().Dx()) > enemy.x &&
 				bullet.y < enemy.y+float64(g.flame.Bounds().Dy()) &&
 				bullet.y+float64(g.waterdrop.Bounds().Dy()) > enemy.y {
-				// Collision detected
+
 				playSoundEffect()
 				g.score++
 				g.bullets = append(g.bullets[:i], g.bullets[i+1:]...)
 				g.enemies = append(g.enemies[:j], g.enemies[j+1:]...)
-				i-- // Adjust index after removal
+				i--
 				break
 			}
 		}
@@ -166,7 +164,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		enemy.Draw(screen, g.flame)
 	}
 
-	// Draw score
 	ebitenutil.DebugPrint(screen, fmt.Sprintf("Score: %d", g.score))
 }
 
@@ -180,17 +177,17 @@ func main() {
 		log.Fatalf("Failed to load the background image: %v", err)
 	}
 
-	truckImg, _, err := ebitenutil.NewImageFromFile("firetruck.png") // Corrected this line
+	truckImg, _, err := ebitenutil.NewImageFromFile("firetruck.png")
 	if err != nil {
 		log.Fatalf("Failed to load the firetruck image: %v", err)
 	}
 
-	waterdropImg, _, err := ebitenutil.NewImageFromFile("waterdrop.png") // Corrected this line
+	waterdropImg, _, err := ebitenutil.NewImageFromFile("waterdrop.png")
 	if err != nil {
 		log.Fatalf("Failed to load the waterdrop image: %v", err)
 	}
 
-	flameImg, _, err := ebitenutil.NewImageFromFile("fire.png") // Corrected this line
+	flameImg, _, err := ebitenutil.NewImageFromFile("fire.png")
 	if err != nil {
 		log.Fatalf("Failed to load the flame image: %v", err)
 	}
